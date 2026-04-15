@@ -47,25 +47,66 @@ fun Calculator(
             verticalArrangement = Arrangement.Bottom,
             horizontalAlignment = Alignment.End
         ) {
-            Text(
-                text = state.value.expression,
-                fontSize = 36.sp,
-                fontWeight = FontWeight.SemiBold,
-                color = MaterialTheme.colorScheme.onBackground
-            )
-            Text(
-                text = state.value.result,
-                fontSize = 17.sp,
-                fontWeight = FontWeight.SemiBold,
-                color = MaterialTheme.colorScheme.onSecondaryContainer,
-            )
+            when(val currentState = state.value) {
+                is CalculatorState.Error -> {
+                    Text(
+                        text = currentState.expression,
+                        lineHeight = 36.sp,
+                        fontSize = 36.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.error
+                    )
+                    Text(
+                        text = "",
+                        fontSize = 17.sp,
+                        lineHeight = 17.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer,
+                    )
+                }
+                CalculatorState.Initial -> {}
+                is CalculatorState.Input -> {
+                    Text(
+                        text = currentState.expression,
+                        lineHeight = 36.sp,
+                        fontSize = 36.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+                    Text(
+                        text = currentState.result,
+                        fontSize = 17.sp,
+                        lineHeight = 17.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer,
+                    )
+                }
+                is CalculatorState.Success -> {
+                    Text(
+                        text = currentState.result,
+                        lineHeight = 36.sp,
+                        fontSize = 36.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+                    Text(
+                        text = "",
+                        fontSize = 17.sp,
+                        lineHeight = 17.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer,
+                    )
+                }
+            }
+
         }
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Text(
-                modifier = Modifier.weight(1f)
+                modifier = Modifier
+                    .weight(1f)
                     .clickable {
                         viewModel.processCommand(CalculatorCommand.Input(Symbol.SQRT))
                     },
@@ -76,7 +117,8 @@ fun Calculator(
                 color = MaterialTheme.colorScheme.onBackground
             )
             Text(
-                modifier = Modifier.weight(1f)
+                modifier = Modifier
+                    .weight(1f)
                     .clickable {
                         viewModel.processCommand(CalculatorCommand.Input(Symbol.PI))
                     },
@@ -87,7 +129,8 @@ fun Calculator(
                 color = MaterialTheme.colorScheme.onBackground
             )
             Text(
-                modifier = Modifier.weight(1f)
+                modifier = Modifier
+                    .weight(1f)
                     .clickable {
                         viewModel.processCommand(CalculatorCommand.Input(Symbol.POWER))
                     },
@@ -98,7 +141,8 @@ fun Calculator(
                 color = MaterialTheme.colorScheme.onBackground
             )
             Text(
-                modifier = Modifier.weight(1f)
+                modifier = Modifier
+                    .weight(1f)
                     .clickable {
                         viewModel.processCommand(CalculatorCommand.Input(Symbol.FACTORIAL))
                     },
